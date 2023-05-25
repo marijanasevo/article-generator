@@ -6,4 +6,8 @@
   .button {
     @apply bg-[#D06D7C] self-center tracking-wider w-full text-center font-bold cursor-pointer uppercase px-4 py-2 hover:bg-[#FADBAD] rounded-[10px_0_10px_0] hover:text-cyan-900 transition-colors block  max-w-[280px] text-white
   }
+
+  .textarea-input {
+    @apply resize-none border border-emerald-700 w-full block my-2 px-4 py-2 rounded-sm outline-none
+  }
 }
