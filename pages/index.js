@@ -24,7 +24,7 @@ export default function Home() {
           minutes. Unlock premium quality content without the need to sacrifice
           your valuable time.
         </p>
-        <Link className="button" href="/post/new">
+        <Link className="button" href="/article/new">
           Explore
         </Link>
       </div>
