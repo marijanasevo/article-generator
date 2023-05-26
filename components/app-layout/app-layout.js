@@ -16,7 +16,7 @@ export const AppLayout = ({ children }) => {
           <Link className="button" href="/article/NewArticle">
             New post
           </Link>
-          <Link className="flex-1 text-center" href="/token-topup">
+          <Link className="flex-1 text-center" href="/token">
             <FontAwesomeIcon className="text-[#FADBAD]" icon={faCoins} />
             <span className="pl-2">0 tokens available</span>
           </Link>

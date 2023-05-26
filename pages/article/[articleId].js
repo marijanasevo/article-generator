@@ -1,15 +1,15 @@
-import {withPageAuthRequired} from "@auth0/nextjs-auth0";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 
 export default function Post() {
   return (
     <div>
-      <h1>This is the post</h1>
+      <h1>This is an article</h1>
     </div>
   );
 }
 
-export const getServerSideProps = withPageAuthRequired (() => {
+export const getServerSideProps = withPageAuthRequired(() => {
   return {
-    props: {}
-  }
-})
+    props: {},
+  };
+});
