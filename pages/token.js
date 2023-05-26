@@ -7,6 +7,8 @@ export default function Token() {
     const response = await fetch("/api/add-tokens", {
       method: "POST",
     });
+    const json = await response.json();
+    window.location.href = json.session.url;
   };
 
   return (
@@ -16,7 +18,7 @@ export default function Token() {
         className="button w-auto bg-cyan-900 hover:bg-[#CF6E7C] hover:text-white"
         onClick={handleAddTokens}
       >
-        Get tokens
+        Buy tokens
       </button>
     </div>
   );
