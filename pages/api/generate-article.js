@@ -72,7 +72,7 @@ export default withApiAuthRequired(async function handler(req, res) {
   });
 
   res.status(200).json({
-    article: JSON.parse(response.data.choices[0].message.content),
+    articleId: article.insertedId,
   });
 
   // const response = await openai.createCompletion({

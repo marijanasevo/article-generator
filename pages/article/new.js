@@ -1,9 +1,11 @@
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { AppLayout } from "../../components/app-layout/app-layout";
 import { useState } from "react";
+import { useRouter } from "next/router";
+import { getAppProps } from "../../utils/getAppProps";
 
 export default function NewArticle() {
-  const [articleContent, setArticleContent] = useState("");
+  const router = useRouter();
   const [subject, setSubject] = useState("");
   const [keywords, setKeywords] = useState("");
 
@@ -19,8 +21,7 @@ export default function NewArticle() {
     });
 
     const json = await response.json();
-    console.log(json.article.articleContent);
-    setArticleContent(json.article.articleContent);
+    if (json?.articleId) router.push("/article/" + json.articleId);
   };
 
   return (
@@ -50,10 +51,6 @@ export default function NewArticle() {
           Generate
         </button>
       </form>
-      <div
-        className="max-w-screen-sm p-10 "
-        dangerouslySetInnerHTML={{ __html: articleContent }}
-      ></div>
     </div>
   );
 }
@@ -62,8 +59,12 @@ NewArticle.getLayout = function getLayout(page, pageProps) {
   return <AppLayout {...pageProps}>{page}</AppLayout>;
 };
 
-export const getServerSideProps = withPageAuthRequired(() => {
-  return {
-    props: {},
-  };
+export const getServerSideProps = withPageAuthRequired({
+  async getServerSideProps(ctx) {
+    const props = await getAppProps(ctx);
+
+    return {
+      props,
+    };
+  },
 });
