@@ -17,6 +17,16 @@ export default withApiAuthRequired(async function handler(req, res) {
 
   const { subject, keywords } = req.body;
 
+  if (!subject.trim() || !keywords.trim()) {
+    res.status(422);
+    return;
+  }
+
+  if (subject.length > 100 || keywords.length > 100) {
+    res.status(422);
+    return;
+  }
+
   const config = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
   });

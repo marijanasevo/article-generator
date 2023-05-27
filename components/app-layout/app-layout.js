@@ -21,13 +21,16 @@ export const AppLayout = ({
           <Link className="button" href="/article/new">
             New post
           </Link>
-          <Link className="flex-1 text-center" href="/token">
-            <FontAwesomeIcon className="text-[#FADBAD]" icon={faCoins} />
+          <Link
+            className="flex-1 text-center hover:text-[#FADBB0] transition-all my-2"
+            href="/token"
+          >
+            <FontAwesomeIcon className="hover:text-[#FADBAD]" icon={faCoins} />
             <span className="pl-2">{availableTokens} tokens available</span>
           </Link>
         </div>
         <div className="flex-1 overflow-auto">
-          {articles.map((article) => (
+          {articles?.map((article) => (
             <Link
               className={`block text-ellipsis overflow-hidden whitespace-nowrap mt-2 py-2 px-4 bg-white/10 hover:bg-white/30 rounded-[5px_0_0_5px] transition-all ${
                 currentArticle === article._id &&
