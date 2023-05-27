@@ -4,14 +4,22 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCoins } from "@fortawesome/free-solid-svg-icons";
 import { Logo } from "../logo/logo";
+import { useContext, useEffect } from "react";
+import ArticlesContext from "../../context/articles.context";
 
 export const AppLayout = ({
   children,
   availableTokens,
-  articles,
+  articles: postsFromSSR,
   currentArticle,
 }) => {
   const { user } = useUser();
+
+  const { setArticlesFromSSR, articles } = useContext(ArticlesContext);
+
+  useEffect(() => {
+    setArticlesFromSSR(postsFromSSR);
+  }, [postsFromSSR, articles]);
 
   return (
     <div className="grid grid-cols-[300px_1fr] h-screen max-h-screen">
