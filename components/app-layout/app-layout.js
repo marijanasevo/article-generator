@@ -10,16 +10,17 @@ import ArticlesContext from "../../context/articles.context";
 export const AppLayout = ({
   children,
   availableTokens,
-  articles: postsFromSSR,
+  articles: articlesFromSSR,
   currentArticle,
 }) => {
   const { user } = useUser();
 
-  const { setArticlesFromSSR, articles } = useContext(ArticlesContext);
+  const { setArticlesFromSSR, articles, getArticles } =
+    useContext(ArticlesContext);
 
   useEffect(() => {
-    setArticlesFromSSR(postsFromSSR);
-  }, [postsFromSSR, articles]);
+    if (!articles?.length) setArticlesFromSSR(articlesFromSSR);
+  }, [articlesFromSSR, setArticlesFromSSR]);
 
   return (
     <div className="grid grid-cols-[300px_1fr] h-screen max-h-screen">
@@ -30,7 +31,7 @@ export const AppLayout = ({
             New post
           </Link>
           <Link
-            className="flex-1 text-center hover:text-[#FADBB0] transition-all my-2"
+            className="flex-1 text-center hover:text-[#FADBB0] transition-all mt-2 mb-8"
             href="/token"
           >
             <FontAwesomeIcon className="hover:text-[#FADBAD]" icon={faCoins} />
@@ -50,6 +51,19 @@ export const AppLayout = ({
               {article.title}
             </Link>
           ))}
+          <div
+            className={
+              "text-center hover:underline text-sm text-[#FADBAD]/90 mt-3" +
+              " cursor-pointer"
+            }
+            onClick={() =>
+              getArticles({
+                lastArticleDate: articles?.[articles.length - 1].created,
+              })
+            }
+          >
+            Load more articles
+          </div>
         </div>
         <div className="flex items-center gap-2 border-t border-t-black/50 h-20 px-2">
           {user ? (
