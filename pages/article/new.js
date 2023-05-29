@@ -32,7 +32,9 @@ export default function NewArticle() {
     }
 
     const json = await response.json();
-    if (json?.articleId) router.push("/article/" + json.articleId);
+    if (json?.articleId) {
+      router.push("/article/" + json.articleId);
+    }
   };
 
   return (

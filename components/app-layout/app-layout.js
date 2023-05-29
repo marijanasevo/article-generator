@@ -19,16 +19,16 @@ export const AppLayout = ({
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const {
-    setArticlesFromSSR,
+    setInitialArticles,
     articles,
     getArticles,
     noMoreArticles,
-    deletePost,
+    deleteArticle,
   } = useContext(ArticlesContext);
 
   useEffect(() => {
-    if (!articles?.length) setArticlesFromSSR(articlesFromSSR);
-  }, [articlesFromSSR, setArticlesFromSSR]);
+    if (!articles?.length) setInitialArticles(articlesFromSSR);
+  }, [articlesFromSSR, setInitialArticles]);
 
   const handleDeleteConfirm = async () => {
     try {
@@ -43,7 +43,7 @@ export const AppLayout = ({
       const json = await response.json();
 
       if (json.success) {
-        deletePost(currentArticle);
+        deleteArticle(currentArticle);
         router.push("/article/new");
         setShowDeleteConfirm(false);
       }
@@ -135,7 +135,7 @@ export const AppLayout = ({
       </div>
       {children}
 
-      {/* Module */}
+      {/* Modal */}
       {showDeleteConfirm && (
         <>
           <div className="fixed inset-0 flex items-center justify-center z-50">

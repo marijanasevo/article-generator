@@ -1,26 +1,60 @@
-import { createContext, useCallback, useState } from "react";
+import { createContext, useCallback, useReducer, useState } from "react";
 
 const ArticlesContext = createContext({});
 
 export default ArticlesContext;
+
+const initialState = {
+  articles: [],
+  noMoreArticles: false,
+};
+
+function articlesReducer(state, action) {
+  switch (action.type) {
+    case "SET_INITIAL_ARTICLES":
+      return {
+        ...state,
+        articles: [...action.payload],
+      };
+
+    case "DELETE_ARTICLE":
+      return {
+        ...state,
+        articles: state.articles.filter(
+          (article) => article._id !== action.payload
+        ),
+      };
+
+    case "GET_MORE_ARTICLES":
+      const newArticles = action.payload.articles || [];
+
+      return {
+        ...state,
+        articles: [...state.articles, ...newArticles],
+        noMoreArticles: newArticles.length < 5,
+      };
+
+    default:
+      return state;
+  }
+}
+
 export const ArticlesProvider = ({ children }) => {
-  const [articles, setArticles] = useState([]);
-  const [noMoreArticles, setNoMoreArticles] = useState(false);
+  const [state, dispatch] = useReducer(articlesReducer, initialState);
 
-  const deletePost = useCallback((currentArticle) => {
-    const newArticles = articles.filter((article) => {
-      return article._id !== currentArticle;
+  const deleteArticle = useCallback((currentArticle) => {
+    dispatch({
+      type: "DELETE_ARTICLE",
+      payload: currentArticle,
     });
-
-    setArticles(newArticles);
   }, []);
 
-  const setArticlesFromSSR = useCallback((articlesFromSSR = []) => {
-    setArticles((oldValue) => [...articlesFromSSR]);
+  const setInitialArticles = useCallback((articlesFromSSR = []) => {
+    dispatch({ type: "SET_INITIAL_ARTICLES", payload: articlesFromSSR });
   }, []);
 
   const getArticles = useCallback(async ({ lastArticleDate }) => {
-    const result = await fetch("/api/getArticles", {
+    const response = await fetch("/api/getArticles", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -28,24 +62,19 @@ export const ArticlesProvider = ({ children }) => {
       body: JSON.stringify({ lastArticleDate }),
     });
 
-    const json = await result.json();
-    const newArticles = json.articles || [];
+    const returnedArticles = await response.json();
 
-    if (newArticles.length < 5) setNoMoreArticles(true);
-
-    setArticles((existingArticles) => {
-      return [...existingArticles, ...newArticles];
-    });
+    dispatch({ type: "GET_MORE_ARTICLES", payload: returnedArticles });
   }, []);
 
   return (
     <ArticlesContext.Provider
       value={{
-        articles,
-        setArticlesFromSSR,
+        articles: state.articles,
+        setInitialArticles,
         getArticles,
-        noMoreArticles,
-        deletePost,
+        noMoreArticles: state.noMoreArticles,
+        deleteArticle,
       }}
     >
       {children}
