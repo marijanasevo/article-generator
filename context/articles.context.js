@@ -5,6 +5,7 @@ const ArticlesContext = createContext({});
 export default ArticlesContext;
 export const ArticlesProvider = ({ children }) => {
   const [articles, setArticles] = useState([]);
+  const [noMoreArticles, setNoMoreArticles] = useState(false);
 
   const setArticlesFromSSR = useCallback((articlesFromSSR = []) => {
     setArticles((oldValue) => [...articlesFromSSR]);
@@ -21,17 +22,18 @@ export const ArticlesProvider = ({ children }) => {
 
     const json = await result.json();
     console.log(json);
-    const articlesResult = json.articles || [];
+    const newArticles = json.articles || [];
 
-    setArticles((oldValue) => {
-      return [...oldValue, ...articlesResult];
+    if (newArticles.length < 5) setNoMoreArticles(true);
+
+    setArticles((existingArticles) => {
+      return [...existingArticles, ...newArticles];
     });
-    console.log("k", articles);
   }, []);
 
   return (
     <ArticlesContext.Provider
-      value={{ articles, setArticlesFromSSR, getArticles }}
+      value={{ articles, setArticlesFromSSR, getArticles, noMoreArticles }}
     >
       {children}
     </ArticlesContext.Provider>

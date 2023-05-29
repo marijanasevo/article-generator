@@ -15,7 +15,7 @@ export const AppLayout = ({
 }) => {
   const { user } = useUser();
 
-  const { setArticlesFromSSR, articles, getArticles } =
+  const { setArticlesFromSSR, articles, getArticles, noMoreArticles } =
     useContext(ArticlesContext);
 
   useEffect(() => {
@@ -51,19 +51,22 @@ export const AppLayout = ({
               {article.title}
             </Link>
           ))}
-          <div
-            className={
-              "text-center hover:underline text-sm text-[#FADBAD]/90 mt-3" +
-              " cursor-pointer"
-            }
-            onClick={() =>
-              getArticles({
-                lastArticleDate: articles?.[articles.length - 1].created,
-              })
-            }
-          >
-            Load more articles
-          </div>
+
+          {!noMoreArticles && (
+            <div
+              className={
+                "text-center hover:underline text-sm text-[#FADBAD]/90 mt-3" +
+                " cursor-pointer"
+              }
+              onClick={() =>
+                getArticles({
+                  lastArticleDate: articles?.[articles.length - 1].created,
+                })
+              }
+            >
+              Load more articles
+            </div>
+          )}
         </div>
         <div className="flex items-center gap-2 border-t border-t-black/50 h-20 px-2">
           {user ? (
