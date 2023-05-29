@@ -12,8 +12,6 @@ export default withApiAuthRequired(async function handler(req, res) {
       auth0Id: sub,
     });
 
-    console.log(req.body);
-
     const { lastArticleDate } = req.body;
 
     const articles = await db
