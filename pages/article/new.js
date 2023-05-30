@@ -1,12 +1,14 @@
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { AppLayout } from "../../components/app-layout/app-layout";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useRouter } from "next/router";
 import { getAppProps } from "../../utils/getAppProps";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faIndustry } from "@fortawesome/free-solid-svg-icons";
+import articlesContext from "../../context/articles.context";
 
 export default function NewArticle() {
+  const { addArticle } = useContext(articlesContext);
   const router = useRouter();
   const [subject, setSubject] = useState("");
   const [keywords, setKeywords] = useState("");
@@ -33,6 +35,7 @@ export default function NewArticle() {
 
     const json = await response.json();
     if (json?.articleId) {
+      addArticle();
       router.push("/article/" + json.articleId);
     }
   };

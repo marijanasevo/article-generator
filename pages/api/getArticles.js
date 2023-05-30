@@ -12,15 +12,15 @@ export default withApiAuthRequired(async function handler(req, res) {
       auth0Id: sub,
     });
 
-    const { lastArticleDate } = req.body;
+    const { lastArticleDate, insertNewPost = false } = req.body;
 
     const articles = await db
       .collection("articles")
       .find({
         userId: userProfile._id,
-        created: { $lt: new Date(lastArticleDate) },
+        created: { [insertNewPost ? "$gt" : "$lt"]: new Date(lastArticleDate) },
       })
-      .limit(5)
+      .limit(insertNewPost ? 0 : 5)
       .sort({ created: -1 })
       .toArray();
 
