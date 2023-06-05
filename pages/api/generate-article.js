@@ -43,7 +43,7 @@ export default withApiAuthRequired(async function handler(req, res) {
       },
       {
         role: "user",
-        content: `Write short, well structured and detailed SEO-friendly article about "${subject}", that targets the following comma-separated keywords: ${keywords}.
+        content: `Write well structured with appropriate headings and detailed SEO-friendly article about "${subject}", that targets the following comma-separated keywords: ${keywords}.
         The content should be formatted in SEO friendly HTML.
         The response must also include appropriate HTML title and meta description content.
         The return format must strictly be a stringified JSON (and nothing else) in the following format: 
