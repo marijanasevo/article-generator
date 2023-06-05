@@ -32,7 +32,7 @@
   }
 
   ul, ol {
-    @apply my-4;
+    @apply my-4 mx-5;
   }
 
   ul {

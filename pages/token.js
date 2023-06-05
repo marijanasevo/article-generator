@@ -12,10 +12,10 @@ export default function Token() {
   };
 
   return (
-    <div>
-      <h1>This is the token page</h1>
+    <div className="flex justify-center flex-col">
+      <h1 className="text-center">Get more tokens now</h1>
       <button
-        className="button w-auto bg-cyan-900 hover:bg-[#CF6E7C] hover:text-white"
+        className="button w-auto bg-cyan-900 hover:bg-[#CF6E7C] hover:text-white mx-auto"
         onClick={handleAddTokens}
       >
         Buy tokens

@@ -120,10 +120,10 @@ export const AppLayout = ({
                   className="rounded-full"
                 />
               </div>
-              <div className="font-bold flex-1 flex flex-wrap gap-1">
+              <div className="font-bold flex-1 flex flex-wrap gap-1 justify-between">
                 <div className="text-sm">{user.email}</div>
 
-                <Link className="text-sm" href="/api/auth/logout">
+                <Link className="text-sm uppercase" href="/api/auth/logout">
                   Logout
                 </Link>
               </div>
