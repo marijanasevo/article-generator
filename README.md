@@ -36,10 +36,9 @@ logged in. Authentication is implemented with Auth0.
 
 ## Installation
 
-Clone the repository and run `npm install`.
+- Clone the repository and run `npm install`.
 
-You'll need to create `env.local` and to include the following environment 
-variables:
+- You'll need to create `env.local` and include the following environment variables:
 
 ```dotenv
 OPENAI_API_KEY=
@@ -55,4 +54,9 @@ STRIPE_PRODUCT_PRICE_ID=
 STRIPE_WEBHOOK_SECRET=
 ```
 
-`npm run dev` to start a server
+- Listen to Stripe events
+
+For tokens to be added, event `payment_intent.succeeded` has to be triggered.
+There is an endpoint in `pages/api/webhooks/stripe.js` configured that will handle this event (by adding tokens to the users account), but you'll need Stripe CLI to simulate Stripe events in your local environment. Steps are available in your Stripe account (Home -> Developers -> Webhooks -> Add local listener). The url is something like: `dashboard.stripe.com/[proj-name]/webhooks/create?endpoint_location=local`.
+
+- `npm run dev` to start a server
